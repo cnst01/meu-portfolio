@@ -8,9 +8,7 @@ interface ButtonProps {
   download?: string
 }
 
-export const Button = styled.button.attrs<ButtonProps>((props) => ({
-  as: props.as || 'button',
-}))<ButtonProps>`
+export const Button = styled.button<ButtonProps>`
   padding: ${({ theme, size }) => {
     if (size === 'small') return `${theme.spacing.sm} ${theme.spacing.base}`
     if (size === 'large') return `${theme.spacing.md} ${theme.spacing.lg}`
@@ -36,7 +34,11 @@ export const Button = styled.button.attrs<ButtonProps>((props) => ({
   letter-spacing: 0.05em;
   position: relative;
   overflow: hidden;
-  
+  display: inline-block; // Adicionado para melhor controle
+  transition: all 0.3s ease; // Transição suave para todas as propriedades
+  font-family: inherit; // Herda a fonte do tema
+
+  // Efeito de brilho animado
   &::after {
     content: '';
     position: absolute;
@@ -50,7 +52,7 @@ export const Button = styled.button.attrs<ButtonProps>((props) => ({
       rgba(255,255,255,0.2),
       transparent
     );
-    transition: ${({ theme }) => theme.transitions.medium};
+    transition: inherit;
   }
 
   &:hover {
@@ -64,5 +66,13 @@ export const Button = styled.button.attrs<ButtonProps>((props) => ({
 
   &:active {
     transform: translateY(1px);
+  }
+
+  // Estilo específico para quando usado como link
+  &[href] {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 `

@@ -90,6 +90,7 @@ const Subtitle = styled.p`
   margin-bottom: ${({ theme }) => theme.spacing.lg};
   color: ${({ theme }) => theme.colors.text};
   line-height: 1.6;
+  margin-bottom: 3vw;
 `
 
 const GridContainer = styled.div`
@@ -215,13 +216,13 @@ export const HeroSection = () => {
 
         <TextContent>
           <ContentWrapper>
-          <Title>
-            <PurpleGradientText> Olá, eu sou o Cassio</PurpleGradientText>
-          </Title>
+            <Title>
+              <PurpleGradientText> Olá, eu sou o Cassio</PurpleGradientText>
+            </Title>
             <Subtitle>
               Desenvolvedor <PurpleGradientText>Full Stack</PurpleGradientText> motivado a aprender!
             </Subtitle>
-            <Button variant="primary" size="large">
+            <Button variant="primary" size="large" as='a' href='#projetos'>
               Ver Projetos
             </Button>
           </ContentWrapper>
