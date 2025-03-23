@@ -8,6 +8,9 @@ import {
   FaPhone,
   FaMapMarkerAlt
 } from 'react-icons/fa'
+import { useState } from 'react'
+import { saveAs } from 'file-saver';
+import { Button } from '../Button';
 
 const FooterContainer = styled.footer`
   background: ${({ theme }) => theme.colors.secondary};
@@ -116,6 +119,39 @@ const Copyright = styled.div`
 `
 
 export const Footer = () => {
+
+  const [isDownloading, setIsDownloading] = useState(false)
+  
+  const handleDownload = async () => {
+    setIsDownloading(true)
+    try {
+      // 1. Usar caminho absoluto
+      const response = await fetch(`${window.location.origin}/pdf/curriculo.pdf`)
+      
+      // 2. Verificar se a resposta é válida
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
+      // 3. Criar blob e verificar tamanho
+      const blob = await response.blob()
+      
+      if (blob.size === 0) {
+        throw new Error('O arquivo está vazio ou não foi encontrado')
+      }
+      
+      // 4. Salvar arquivo
+      saveAs(blob, 'Curriculo_Cassio_Nicoletti.pdf')
+      
+    } catch (error) {
+      console.error('Erro no download:', error)
+      alert('Erro ao baixar o currículo. Por favor, tente novamente.')
+    } finally {
+      setIsDownloading(false)
+    }
+  }
+  
+
   return (
     <FooterContainer id="contato">
       <FooterContent>
@@ -178,7 +214,14 @@ export const Footer = () => {
               <a href="#projetos">Projetos</a>
             </ContactItem>
             <ContactItem>
-              <a href="#curriculo">Curriculo</a>
+              <Button 
+                variant="primary" 
+                size="medium"
+                onClick={handleDownload}
+                disabled={isDownloading}
+              >
+                {isDownloading ? 'Baixando...' : 'Currículo'}
+              </Button>
             </ContactItem>
           </ContactList>
         </FooterSection>

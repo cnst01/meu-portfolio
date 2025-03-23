@@ -3,9 +3,14 @@ import styled from 'styled-components'
 interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'ghost'
   size?: 'small' | 'medium' | 'large'
+  as?: React.ElementType
+  href?: string
+  download?: string
 }
 
-export const Button = styled.button<ButtonProps>`
+export const Button = styled.button.attrs<ButtonProps>((props) => ({
+  as: props.as || 'button',
+}))<ButtonProps>`
   padding: ${({ theme, size }) => {
     if (size === 'small') return `${theme.spacing.sm} ${theme.spacing.base}`
     if (size === 'large') return `${theme.spacing.md} ${theme.spacing.lg}`

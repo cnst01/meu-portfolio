@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import { Button } from '../../components/Button'
+import { saveAs } from 'file-saver';
+import { useState } from 'react';
 
 const HeaderWrapper = styled.header`
   position: fixed;
@@ -36,6 +38,37 @@ const NavItems = styled.div`
 `
 
 export const Header = () => {
+  const [isDownloading, setIsDownloading] = useState(false)
+
+  const handleDownload = async () => {
+    setIsDownloading(true)
+    try {
+      // 1. Usar caminho absoluto
+      const response = await fetch(`${window.location.origin}/pdf/curriculo.pdf`)
+      
+      // 2. Verificar se a resposta é válida
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
+      // 3. Criar blob e verificar tamanho
+      const blob = await response.blob()
+      
+      if (blob.size === 0) {
+        throw new Error('O arquivo está vazio ou não foi encontrado')
+      }
+      
+      // 4. Salvar arquivo
+      saveAs(blob, 'Curriculo_Cassio_Nicoletti.pdf')
+      
+    } catch (error) {
+      console.error('Erro no download:', error)
+      alert('Erro ao baixar o currículo. Por favor, tente novamente.')
+    } finally {
+      setIsDownloading(false)
+    }
+  }
+
   return (
     <HeaderWrapper>
       <Nav>
@@ -44,8 +77,13 @@ export const Header = () => {
           <a href="#projetos">Projetos</a>
           <a href="#sobre">Sobre</a>
           <a href="#contato">Contato</a>
-          <Button variant="primary" size="medium">
-            Currículo
+          <Button 
+            variant="primary" 
+            size="medium"
+            onClick={handleDownload}
+            disabled={isDownloading}
+          >
+            {isDownloading ? 'Baixando...' : 'Currículo'}
           </Button>
         </NavItems>
       </Nav>
