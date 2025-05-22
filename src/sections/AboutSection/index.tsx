@@ -301,6 +301,19 @@ export const AboutSection = () => {
   const devProjects = [
     {
       icon: <FaReact />,
+      title: 'WebSite da Tricode Systems',
+      details: [
+        { icon: <FaCode />, text: 'TipeScript e Tailwind' },
+        { icon: <FaDatabase />, text: 'Next.js' },
+        { icon: <FaMobileAlt />, text: 'Responsividade' },
+        
+      ],
+      thumbnailUrl: '/images/projects/tricode.png',
+      link: 'https://tricodesistemas.vercel.app/'
+      
+    },
+    {
+      icon: <FaReact />,
       title: 'Sistema para Restaurante Escolar',
       details: [
         { icon: <FaCode />, text: 'React.js e CSS' },
